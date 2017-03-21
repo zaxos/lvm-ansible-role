@@ -1,0 +1,54 @@
+[![Build Status](https://travis-ci.org/zaxos/lvm-ansible-role.svg?branch=master)](https://travis-ci.org/zaxos/lvm-ansible-role)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-_zaxos.lvm--ansible--role-blue.svg)](https://galaxy.ansible.com/zaxos/lvm-ansible-role/)
+
+lvm-ansible-role
+================
+
+Ansible role to create and mount single lvm volumes.
+
+Requirements
+------------
+* centos/rhel 7
+* ansible >= 1.8
+
+Installation
+------------
+```
+$ ansible-galaxy install zaxos.lvm-ansible-role
+```
+
+Example Playbook
+----------------
+```yaml
+- hosts: servers
+  vars:
+    lvm_volumes:
+    - vg_name: vg_data
+      lv_name: lv_data
+      disk: sdb
+      filesystem: xfs
+      mount: /mnt
+            
+  roles:
+    - role: zaxos.lvm-ansible-role
+```
+
+Example volume
+--------------
+```yaml
+- vg_name: vg_data  # required, volume group name #
+  lv_name: lv_data  # required, logical volume name #
+  disk: sdb  # required #
+  filesystem: xfs  # optional, default is 'xfs' #
+  mount: /mnt  # required #
+  state: present/absent  # optional, default is 'present', set to 'absent' for removal #
+  lv_size: 100%VG  # optional, default is '100%VG' #
+  create_partition: True  # optional, default is 'False', set to 'True' to create gpt partition before vg creation #
+  mounted: True  # optional, default is 'True', set to 'False' to unmount #
+  mount_options: defaults  # optional, default is 'defaults' #
+```
+
+Role Variables
+--------------
+The main variable:
+- `lvm_volumes`: List of volumes.

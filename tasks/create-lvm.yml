@@ -1,0 +1,39 @@
+---
+# tasks file for lvm-ansible-role
+
+- name: Create GPT partition
+  command: "parted /dev/{{ item.disk }} --script mklabel gpt mkpart primary 0% 100% set 1 lvm on"
+  with_items: "{{ lvm_volumes }}"
+  when: >
+    '{{ item.disk }}1' not in lsblk_list.stdout and
+    '{{ item.vg_name }}-{{ item.lv_name }}' not in lsblk_list.stdout and
+    (item.state is not defined or item.state == "present") and
+    (item.create_partition is defined and item.create_partition)
+
+- name: Create volume group
+  lvg:
+    vg: "{{ item.vg_name }}"
+    pvs: /dev/{{ item.disk }}{% if item.create_partition is defined and item.create_partition %}1{% endif %}
+    state: present
+  with_items: "{{ lvm_volumes }}"
+  when: >
+    (item.state is not defined or item.state == "present") and
+    '{{ item.vg_name }}-{{ item.lv_name }}' not in lsblk_list.stdout
+
+- name: Create logical volume
+  lvol:
+    vg: "{{ item.vg_name }}"
+    lv: "{{ item.lv_name }}"
+    size: " {{ item.lv_size | default('100%VG') }}"
+    state: present
+  with_items: "{{ lvm_volumes }}"
+  when: >
+    item.state is not defined or item.state == "present"
+
+- name: Format volume
+  filesystem:
+    fstype: "{{ item.filesystem | default ('xfs') }}"
+    dev: "/dev/{{ item.vg_name }}/{{ item.lv_name }}"
+  with_items: "{{ lvm_volumes }}"
+  when: >
+    item.state is not defined or item.state == "present"

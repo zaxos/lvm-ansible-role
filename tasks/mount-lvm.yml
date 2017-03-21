@@ -1,0 +1,30 @@
+---
+# tasks file for lvm-ansible-role
+
+- name: Remove old mount point from fstab in case of change
+  lineinfile:
+    dest: /etc/fstab
+    regexp: "^/dev/{{ item.vg_name }}/{{ item.lv_name }} (?!.*{{ item.mount }} ).*"
+    state: absent
+  register: regex_fstab
+  with_items: "{{ lvm_volumes }}"
+
+- name: Unmount old mount point in case of change
+  command: umount /dev/{{ item.0.vg_name }}/{{ item.0.lv_name }}
+  when: >
+    'line(s) removed' in item.1.msg 
+  with_together:
+    - "{{ lvm_volumes }}"
+    - "{{ regex_fstab.results }}"
+
+- name: Mount volume
+  mount:
+    name: "{{ item.mount }}"
+    src: "/dev/{{ item.vg_name }}/{{ item.lv_name }}"
+    fstype: "{{ item.filesystem | default ('xfs') }}"
+    state: mounted
+    opts: "{{ item.mount_options | default('defaults') }}"
+  with_items: "{{ lvm_volumes }}"
+  when: >
+    (item.state is not defined or item.state == "present") and 
+    (item.mounted is not defined or item.mounted)

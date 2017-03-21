@@ -1,0 +1,16 @@
+galaxy_info:
+  author: zaxos
+  description: Ansible role to create and mount single lvm volumes
+
+  license: GPLv2
+
+  min_ansible_version: 1.8
+
+  platforms:
+  - name: EL
+    versions:
+    - 7
+
+  galaxy_tags: [system,storage,cloud,clustering]
+
+dependencies: []
