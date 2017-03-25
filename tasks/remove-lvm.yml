@@ -14,7 +14,7 @@
 - name: Remove volume group
   lvg:
     vg: "{{ item.vg_name }}"
-    pvs: /dev/{{ item.disk }}{% if item.create_partition %}1{% endif %}
+    pvs: /dev/{{ item.disk }}{% if item.create_partition is defined and item.create_partition %}1{% endif %}
     state: absent
   with_items: "{{ lvm_volumes }}"
   when: >
