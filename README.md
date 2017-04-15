@@ -50,5 +50,7 @@ Example volume
 
 Role Variables
 --------------
-The main variable:
+Some variables that require review::
 - `lvm_volumes`: List of volumes.
+- `lvm_auto_remount`: Default value is "True". If set to "True", when the mount path of a volume is changed, the old mount path will be automatically unmounted and removed from fstab.
+

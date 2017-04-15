@@ -8,11 +8,16 @@
     state: absent
   register: regex_fstab
   with_items: "{{ lvm_volumes }}"
+  when: >
+    lvm_auto_remount and
+    item.mount is defined
 
 - name: Unmount old mount point in case of change
   command: umount /dev/{{ item.0.vg_name }}/{{ item.0.lv_name }}
   when: >
-    'line(s) removed' in item.1.msg 
+    item.1.msg is defined and
+    'line(s) removed' in item.1.msg and 
+    lvm_auto_remount
   with_together:
     - "{{ lvm_volumes }}"
     - "{{ regex_fstab.results }}"

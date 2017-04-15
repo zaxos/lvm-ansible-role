@@ -8,3 +8,5 @@ lvm_packages_EL:
   - {package: "util-linux"}
 
 lvm_volumes: []
+
+lvm_auto_remount: True
