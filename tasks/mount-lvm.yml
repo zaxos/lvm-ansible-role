@@ -40,7 +40,7 @@
     state: directory
     owner: "{{ item.owner | default ('root') }}"
     group: "{{ item.group | default ('root') }}"
-    mode: "{{ item.mode | default (0755) }}"
+    mode: "{{ item.mode | default ('0755') }}"
   with_items: "{{ lvm_volumes }}"
   when: >
     (item.state is not defined or item.state == "present") and
