@@ -33,3 +33,15 @@
   when: >
     (item.state is not defined or item.state == "present") and 
     (item.mounted is not defined or item.mounted)
+
+- name: Ensure mount paths permissions
+  file:
+    path: "{{ item.mount }}"
+    state: directory
+    owner: "{{ item.owner | default ('root') }}"
+    group: "{{ item.group | default ('root') }}"
+    mode: "{{ item.mode | default (0755) }}"
+  with_items: "{{ lvm_volumes }}"
+  when: >
+    (item.state is not defined or item.state == "present") and
+    (item.mounted is not defined or item.mounted)

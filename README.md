@@ -43,8 +43,11 @@ Example volume
   mount: /mnt  # required #
   state: present/absent  # optional, default is 'present', set to 'absent' for removal #
   lv_size: 100%VG  # optional, default is '100%VG' #
-  create_partition: True  # optional, default is 'False', set to 'True' to create gpt partition before vg creation #
+  create_partition: False  # optional, default is 'False', set to 'True' to create gpt partition before vg creation #
   mounted: True  # optional, default is 'True', set to 'False' to unmount #
+  owner: "root"  # optional, default is "root" #
+  group: "root"  # optional, default is "root" #
+  mode: "0644"  # optional, default is "0755" #
   mount_options: defaults  # optional, default is 'defaults' #
 ```
 
@@ -53,4 +56,3 @@ Role Variables
 Some variables that require review::
 - `lvm_volumes`: List of volumes.
 - `lvm_auto_remount`: Default value is "True". If set to "True", when the mount path of a volume is changed, the old mount path will be automatically unmounted and removed from fstab.
-
