@@ -5,8 +5,8 @@
   command: "parted /dev/{{ item.disk }} --script mklabel gpt mkpart primary 0% 100% set 1 lvm on"
   with_items: "{{ lvm_volumes }}"
   when: >
-    '{{ item.disk }}1' not in lsblk_list.stdout and
-    '{{ item.vg_name }}-{{ item.lv_name }}' not in lsblk_list.stdout and
+    item.disk + "1" not in lsblk_list.stdout and
+    item.vg_name + "-" + item.lv_name not in lsblk_list.stdout and
     (item.state is not defined or item.state == "present") and
     (item.create_partition is defined and item.create_partition)
 
@@ -18,7 +18,7 @@
   with_items: "{{ lvm_volumes }}"
   when: >
     (item.state is not defined or item.state == "present") and
-    '{{ item.vg_name }}-{{ item.lv_name }}' not in lsblk_list.stdout
+    item.vg_name + "-" + item.lv_name not in lsblk_list.stdout
 
 - name: Create logical volume
   lvol:

@@ -24,6 +24,6 @@
   command: "parted /dev/{{ item.disk }} rm 1"
   with_items: "{{ lvm_volumes }}"
   when: >
-    '{{ item.disk }}1' in lsblk_list.stdout and
+    item.disk + "1" in lsblk_list.stdout and
     (item.state is defined and item.state == "absent") and
     (item.create_partition is defined and item.create_partition)

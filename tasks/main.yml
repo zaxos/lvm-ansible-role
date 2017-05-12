@@ -22,16 +22,16 @@
 
 - name: Create lvm volume(s)
   include: create-lvm.yml
-  when: "{{ lvm_volumes }}"
+  when: lvm_volumes
 
 - name: Mount lvm volume(s)
   include: mount-lvm.yml
-  when: "{{ lvm_volumes }}"
+  when: lvm_volumes
 
 - name: Unmount lvm volume(s)
   include: unmount-lvm.yml
-  when: "{{ lvm_volumes }}"
+  when: lvm_volumes
 
 - name: Remove lvm volume(s)
   include: remove-lvm.yml
-  when: "{{ lvm_volumes }}"
+  when: lvm_volumes
