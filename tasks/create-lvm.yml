@@ -34,6 +34,7 @@
   filesystem:
     fstype: "{{ item.filesystem | default ('xfs') }}"
     dev: "/dev/{{ item.vg_name }}/{{ item.lv_name }}"
+    opts: "{{ item.filesystem_mkfs_opts | default(omit) }}"
   with_items: "{{ lvm_volumes }}"
   when: >
     item.state is not defined or item.state == "present"
