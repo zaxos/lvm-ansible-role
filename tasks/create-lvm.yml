@@ -24,7 +24,7 @@
   lvol:
     vg: "{{ item.vg_name }}"
     lv: "{{ item.lv_name }}"
-    size: " {{ item.lv_size | default('100%VG') }}"
+    size: "{{ item.lv_size | default('100%VG') }}"
     state: present
   with_items: "{{ lvm_volumes }}"
   when: >
