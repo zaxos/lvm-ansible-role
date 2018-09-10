@@ -21,17 +21,17 @@
   changed_when: false
 
 - name: Create lvm volume(s)
-  include: create-lvm.yml
+  import_tasks: create-lvm.yml
   when: lvm_volumes
 
 - name: Mount lvm volume(s)
-  include: mount-lvm.yml
+  import_tasks: mount-lvm.yml
   when: lvm_volumes
 
 - name: Unmount lvm volume(s)
-  include: unmount-lvm.yml
+  import_tasks: unmount-lvm.yml
   when: lvm_volumes
 
 - name: Remove lvm volume(s)
-  include: remove-lvm.yml
+  import_tasks: remove-lvm.yml
   when: lvm_volumes
