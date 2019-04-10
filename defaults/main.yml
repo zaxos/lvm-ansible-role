@@ -1,11 +1,12 @@
 ---
 # defaults file for lvm-ansible-role
 
-lvm_packages_EL:
-  - {package: "lvm2"}
-  - {package: "sg3_utils"}
-  - {package: "parted"}
-  - {package: "util-linux"}
+lvm_packages:
+  EL:
+    - "lvm2"
+    - "sg3_utils"
+    - "parted"
+    - "util-linux"
 
 lvm_volumes: []
 
