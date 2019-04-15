@@ -7,7 +7,7 @@
     lv: "{{ item.lv_name }}"
     state: absent
     force: yes
-  with_items: "{{ lvm_volumes }}"
+  loop: "{{ lvm_volumes }}"
   when: >
     item.state is defined and item.state == "absent"
 
@@ -16,13 +16,13 @@
     vg: "{{ item.vg_name }}"
     pvs: /dev/{{ item.disk }}{% if item.create_partition is defined and item.create_partition %}1{% endif %}
     state: absent
-  with_items: "{{ lvm_volumes }}"
+  loop: "{{ lvm_volumes }}"
   when: >
     item.state is defined and item.state == "absent"
 
 - name: Remove GPT partition
   command: "parted /dev/{{ item.disk }} rm 1"
-  with_items: "{{ lvm_volumes }}"
+  loop: "{{ lvm_volumes }}"
   when: >
     item.disk + "1" in lsblk_list.stdout and
     (item.state is defined and item.state == "absent") and

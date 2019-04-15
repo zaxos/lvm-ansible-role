@@ -2,10 +2,9 @@
 # tasks file for lvm-ansible-role
 
 - name: Install necessary packages
-  yum:
-    name: "{{ item.package }}"
+  package:
+    name: "{{ lvm_packages['EL'] }}"
     state: present
-  with_items: "{{ lvm_packages_EL }}"
 
 - name: Recheck for scsi devices
   command: sg_scan

@@ -7,7 +7,7 @@
     src: "/dev/{{ item.vg_name }}/{{ item.lv_name }}"
     fstype: "{{ item.filesystem }}"
     state: unmounted
-  with_items: "{{ lvm_volumes }}"
+  loop: "{{ lvm_volumes }}"
   when: >
     (item.mounted is defined and item.mounted == False) or
     (item.state is defined and item.state == "absent")
@@ -18,7 +18,7 @@
     src: "/dev/{{ item.vg_name }}/{{ item.lv_name }}"
     fstype: "{{ item.filesystem }}"
     state: absent
-  with_items: "{{ lvm_volumes }}"
+  loop: "{{ lvm_volumes }}"
   when: >
     (item.mounted is defined and item.mounted == False) or
     (item.state is defined and item.state == "absent")

@@ -9,7 +9,7 @@ Ansible role to create and mount single lvm volumes.
 Requirements
 ------------
 * centos/rhel 7
-* ansible >= 1.8
+* ansible >= 2.5
 
 Installation
 ------------
